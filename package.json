@@ -10,9 +10,11 @@
     "test:coverage": "react-scripts test --verbose --coverage --watchAll=false",
     "test:ci": "react-scripts test --verbose --coverage --watchAll=false --coverageDirectory reports --maxWorkers=2",
     "lint": "eslint \"src/**/*.{js,jsx,ts,tsx}\"",
+    "lint:fix": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --fix",
     "lint:ci": "eslint \"src/**/*.{js,jsx,ts,tsx}\" --format junit --output-file ./reports/eslint.xml"
   },
   "dependencies": {
+    "@rsksmart/rsk-testnet-contract-metadata": "^1.0.11",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-scripts": "4.0.0",

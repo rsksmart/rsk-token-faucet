@@ -1,9 +1,9 @@
 <p align="middle">
   <img src="https://www.rifos.org/assets/img/logo.svg" alt="logo" height="100" >
 </p>
-<h3 align="middle"><code>react-app-rif-template</code></h3>
+<h3 align="middle"><code>rsk-token-faucet</code></h3>
 <p align="middle">
-  React.js template with Typescript, Sass, Enzyme, ESlint and CircleCI
+  A faucet for all the rSK tokens
 </p>
 <p align="middle">
   <a href="https://github.com/rsksmart/react-app-rif-template/actions/workflows/ci.yml">

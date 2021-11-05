@@ -5,7 +5,7 @@ import './App.scss'
 function App () {
   return (
     <div className="App">
-      RSK Token Faucet :D
+      RSK Token Faucet
     </div>
   )
 }

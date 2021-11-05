@@ -17,27 +17,6 @@
   </a>
 </p>
 
-Use this template to create a [`create-react-app`](https://es.reactjs.org/docs/create-a-new-react-app.html) with configuration ready for:
-- [Typescript](https://www.typescriptlang.org/) - static type definitions for JavaScript
-- [Sass](https://sass-lang.com/) - CSS pre-processor
-- [Enzyme](https://enzymejs.github.io/enzyme/) - JavaScript Testing utility for React*
-- [ESLint](https://eslint.org/) - linter tool for identifying and reporting on patterns in JavaScript
-- [CircleCI](https://circleci.com/) - continuous integration and delivery platform
-
-## Usage
-
-This repo is to be used as a tempalte. It has setup for the tools mentioned above, cinluding CircleCI flow
-
-1. Create a new repo using this one as a template
-
-  ![Update Shield URLs](../main/docs/use-template-button.jpg)
-
-2. Update the shields on the header to point your urls
-
-  ![Update Shield URLs](../main/docs/update-badge-urls.jpg)
-
-3. Start coding!
-
 ## Available Scripts
 
 ### `yarn`

@@ -1,11 +1,17 @@
 import React from 'react'
 import logo from './logo.svg'
-import './App.scss'
+import contractMap from '@rsksmart/rsk-testnet-contract-metadata'
+import Row from './components/row'
+
+const baseDir =
+  'https://raw.githubusercontent.com/rsksmart/rsk-testnet-contract-metadata/master/images/'
+const addresses = Object.keys(contractMap)
 
 function App () {
   return (
     <div className="App">
       RSK Token Faucet
+      {addresses.map((address: any) => <Row key={address} token = {contractMap[address]} add = {address} />)}
     </div>
   )
 }

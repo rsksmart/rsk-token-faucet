@@ -6,7 +6,6 @@ import Row from './components/row'
 const baseDir =
   'https://raw.githubusercontent.com/rsksmart/rsk-testnet-contract-metadata/master/images/'
 const addresses = Object.keys(contractMap)
-console.log(addresses)
 
 function App () {
   return (

@@ -1,11 +1,8 @@
 import React, { useState } from 'react'
-import logo from './logo.svg'
 import contractMap from '@rsksmart/rsk-testnet-contract-metadata'
 import Row from './components/row'
 import RLogin from '@rsksmart/rlogin'
 
-const baseDir =
-  'https://raw.githubusercontent.com/rsksmart/rsk-testnet-contract-metadata/master/images/'
 const addresses = Object.keys(contractMap)
 const rpcUrls = {
   31: 'https://public-node.testnet.rsk.co'
@@ -18,7 +15,7 @@ const rLogin = new RLogin({
 })
 
 function App () {
-  const [mm, setMM] = useState(null)
+  const [mm, setMM] = useState<any>(null)
   const handleLogin = () => {
     rLogin.connect().then(({ provider }) => setMM(provider))
   }
@@ -27,6 +24,7 @@ function App () {
       RSK Token Faucet
       {addresses.map((address: any) => <Row key={address} token = {contractMap[address]} add = {address} />)}
       <button onClick = {handleLogin} >Log In</button>
+      {mm && mm.toString()}
     </div>
 
   )

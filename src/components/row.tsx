@@ -11,14 +11,24 @@ const Row: React.FC<{ token: any, add: string, signer: Signer, faucet: Contract 
   const contract = new Contract(add.toLowerCase(), contractAbi, signer)
   const [balance, setBalance] = useState<any>(null)
   const [address, setAddress] = useState('')
+  const [faucetBalance, setFaucetBalance] = useState<any>(null)
+  const [disable, setDisable] = useState(true)
   useEffect(() => {
     (async () => {
       const a = await signer.getAddress()
       const b = await contract.balanceOf(a)
+      const faucetB = await contract.balanceOf(faucet.address)
       setBalance(b)
       setAddress(a)
+      setFaucetBalance(faucetB)
+      if (faucetBalance > 0) {
+        setDisable(false)
+      }
     })()
   })
+
+  
+
   return (
     <div>
       <img src = {baseDir + token.logo} width = "50px"></img>
@@ -26,7 +36,7 @@ const Row: React.FC<{ token: any, add: string, signer: Signer, faucet: Contract 
       <h3>Symbol: {token.symbol} </h3>
       <h3>Address: {add} </h3>
       <h3>Balance: {balance && (balance / Math.pow(10, 18) + balance % Math.pow(10, 18)).toString()}</h3>
-      <button onClick={() => faucet.dispense(add.toLowerCase(), address)}>Dispense</button>
+      <button disabled={disable} onClick={() => faucet.dispense(add.toLowerCase(), address)}>Dispense</button>
     </div>
   )
 }

@@ -1,3 +1,10 @@
+import React from "react"
+import { render } from "enzyme"
+import App from "./App"
+
 test('dummy', () => {
-  expect(true).toBeTruthy()
+  // @ts-ignore
+  const e = render(<div><p id='title'>Faucet</p></div>)
+
+  expect(e.find('#title').text()).toContain('Faucet')
 })

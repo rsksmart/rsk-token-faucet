@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { ethers, providers, Contract, Signer } from 'ethers'
 
-const Row: React.FC<{ token: any, add: string, signer: Signer }> = ({ token, add, signer }) => {
+const Row: React.FC<{ token: any, add: string, signer: Signer, faucet: Contract }> = ({ token, add, signer, faucet }) => {
   const baseDir =
   'https://raw.githubusercontent.com/rsksmart/rsk-testnet-contract-metadata/master/images/'
   const contractAbi = [
@@ -10,8 +10,14 @@ const Row: React.FC<{ token: any, add: string, signer: Signer }> = ({ token, add
   ]
   const contract = new Contract(add.toLowerCase(), contractAbi, signer)
   const [balance, setBalance] = useState<any>(null)
+  const [address, setAddress] = useState('')
   useEffect(() => {
-    signer.getAddress().then(address => contract.balanceOf(address).then((b: any) => setBalance(b)))
+    (async () => {
+      const a = await signer.getAddress()
+      const b = await contract.balanceOf(a)
+      setBalance(b)
+      setAddress(a)
+    })()
   })
   return (
     <div>
@@ -20,6 +26,7 @@ const Row: React.FC<{ token: any, add: string, signer: Signer }> = ({ token, add
       <h3>Symbol: {token.symbol} </h3>
       <h3>Address: {add} </h3>
       <h3>Balance: {balance && (balance / Math.pow(10, 18) + balance % Math.pow(10, 18)).toString()}</h3>
+      <button onClick={() => faucet.dispense(add.toLowerCase(), address)}>Dispense</button>
     </div>
   )
 }

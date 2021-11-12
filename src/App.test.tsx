@@ -1,6 +1,6 @@
-import React from "react"
-import { render } from "enzyme"
-import App from "./App"
+import React from 'react'
+import { render } from 'enzyme'
+import App from './App'
 
 test('dummy', () => {
   // @ts-ignore

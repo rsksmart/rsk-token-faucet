@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import contractMap from '@rsksmart/rsk-testnet-contract-metadata'
 import Row from './components/row'
 import RLogin from '@rsksmart/rlogin'
-import { ethers, providers, Contract } from 'ethers'
+import { ethers, Contract } from 'ethers'
 
 const addresses = Object.keys(contractMap)
 const rpcUrls = {

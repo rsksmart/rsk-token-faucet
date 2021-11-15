@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { ethers, providers, Contract, Signer } from 'ethers'
+import { Contract, Signer } from 'ethers'
 
 const Row: React.FC<{ token: any, add: string, signer: Signer, faucet: Contract }> = ({ token, add, signer, faucet }) => {
   const baseDir =
@@ -26,8 +26,6 @@ const Row: React.FC<{ token: any, add: string, signer: Signer, faucet: Contract 
       }
     })()
   })
-
-  
 
   return (
     <div>

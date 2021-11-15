@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import contractMap from '@rsksmart/rsk-testnet-contract-metadata'
 import Row from './components/row'
 import RLogin from '@rsksmart/rlogin'
+import { ethers, Contract } from 'ethers'
 
 const addresses = Object.keys(contractMap)
 const rpcUrls = {
@@ -16,17 +17,23 @@ const rLogin = new RLogin({
 
 function App () {
   const [mm, setMM] = useState<any>(null)
-  const handleLogin = () => {
-    rLogin.connect().then(({ provider }) => setMM(provider))
+  const [faucet, setFaucet] = useState<null | Contract>(null)
+  const handleLogin = async () => {
+    const { provider } = await rLogin.connect()
+    const web3Provider = new ethers.providers.Web3Provider(provider).getSigner()
+    const faucet = new Contract('0x11f2753e9a597473da2f51492f4fefac1c572640', [
+      'function dispense(address token, address to)'
+    ], web3Provider)
+    setMM(web3Provider)
+    setFaucet(faucet)
   }
   return (
     <div className="App">
       RSK Token Faucet
-      {addresses.map((address: any) => <Row key={address} token = {contractMap[address]} add = {address} />)}
+      {(mm && faucet) && addresses.map((address: any) => <Row key={address} token = {contractMap[address]} add = {address} signer = {mm} faucet={faucet} />)}
       <button onClick = {handleLogin} >Log In</button>
       {mm && mm.toString()}
     </div>
-
   )
 }
 

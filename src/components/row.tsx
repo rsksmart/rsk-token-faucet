@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Contract, Signer, BigNumber, BigNumberish } from 'ethers'
+import { BigLink } from '@rsksmart/rif-material-ui'
+import { Button, Typography } from '@mui/material'
 
 const Row: React.FC<{ token: any, add: string, signer: Signer, faucet: Contract }> = ({ token, add, signer, faucet }) => {
   const baseDir =
@@ -28,15 +30,19 @@ const Row: React.FC<{ token: any, add: string, signer: Signer, faucet: Contract 
   })
 
   return (
-    <div>
-      <img src = {baseDir + token.logo} width = "50px"></img>
-      <h3>Nombre: {token.name} </h3>
-      <h3>Symbol: {token.symbol} </h3>
-      <h3>Address: {add} </h3>
-      <h3>Balance: {balance && balanceToString(balance, token.decimals)}</h3>
-      <button disabled={disable} onClick={() => faucet.dispense(add.toLowerCase(), address)}>Dispense</button>
+    <div style = {{ backgroundColor: '#F3F3F3', margin: '10px', padding: '10px', borderRadius: '1em' }}>
+      <div style = {{ }}>
+        <img style={{ float: 'left', paddingTop: '10px' }} src = {baseDir + token.logo} width = "40px"></img>
+        <h3 style={{ float: 'left', paddingLeft: '20px' }}>{token.symbol} </h3>
+        <h3 style={{ float: 'left', paddingLeft: '20px' }}>{token.name} </h3>
+        <h3 style={{ float: 'left', paddingLeft: '250px' }}>Your Balance: {balance && balanceToString(balance, token.decimals)}</h3>
+      </div>
+      <div style = {{ textAlign: 'right' }}>
+        <h3 style={{ float: 'right' }}>Address: {add} </h3>
+        <Button disabled={disable} onClick={() => faucet.dispense(add.toLowerCase(), address)}>Get Funds</Button>
+      </div>
     </div>
-  )
+)  
 }
 
 export const balanceToString = (balance: BigNumber, decimals: BigNumberish) => {

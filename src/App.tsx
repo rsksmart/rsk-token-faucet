@@ -31,7 +31,7 @@ function App () {
   }
   return (
     <RifThemeProvider>
-      <div className="App">
+      <div style={{ padding: '20px' }}>
         <Typography variant="h1">RSK Token Faucet</Typography>
         {(mm && faucet) && addresses.map((address: any) => <Row key={address} token = {contractMap[address]} add = {address} signer = {mm} faucet={faucet} />)}
         <Button onClick = {handleLogin} >Log In</Button>

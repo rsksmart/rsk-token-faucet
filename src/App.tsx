@@ -3,6 +3,8 @@ import contractMap from '@rsksmart/rsk-testnet-contract-metadata'
 import Row from './components/row'
 import RLogin from '@rsksmart/rlogin'
 import { ethers, Contract } from 'ethers'
+import { RifThemeProvider } from '@rsksmart/rif-material-ui'
+import { Button, Typography } from '@mui/material'
 
 const addresses = Object.keys(contractMap)
 const rpcUrls = {
@@ -28,12 +30,14 @@ function App () {
     setFaucet(faucet)
   }
   return (
-    <div className="App">
-      RSK Token Faucet
-      {(mm && faucet) && addresses.map((address: any) => <Row key={address} token = {contractMap[address]} add = {address} signer = {mm} faucet={faucet} />)}
-      <button onClick = {handleLogin} >Log In</button>
-      {mm && mm.toString()}
-    </div>
+    <RifThemeProvider>
+      <div className="App">
+        <Typography variant="h1">RSK Token Faucet</Typography>
+        {(mm && faucet) && addresses.map((address: any) => <Row key={address} token = {contractMap[address]} add = {address} signer = {mm} faucet={faucet} />)}
+        <Button onClick = {handleLogin} >Log In</Button>
+        {mm && mm.toString()}
+      </div>
+    </RifThemeProvider>
   )
 }
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Contract, Signer } from 'ethers'
+import { Contract, Signer, BigNumber, BigNumberish } from 'ethers'
 
 const Row: React.FC<{ token: any, add: string, signer: Signer, faucet: Contract }> = ({ token, add, signer, faucet }) => {
   const baseDir =
@@ -33,10 +33,19 @@ const Row: React.FC<{ token: any, add: string, signer: Signer, faucet: Contract 
       <h3>Nombre: {token.name} </h3>
       <h3>Symbol: {token.symbol} </h3>
       <h3>Address: {add} </h3>
-      <h3>Balance: {balance && (balance / Math.pow(10, 18) + balance % Math.pow(10, 18)).toString()}</h3>
+      <h3>Balance: {balance && balanceToString(balance, token.decimals)}</h3>
       <button disabled={disable} onClick={() => faucet.dispense(add.toLowerCase(), address)}>Dispense</button>
     </div>
   )
+}
+
+export const balanceToString = (balance: BigNumber, decimals: BigNumberish) => {
+  const parts = {
+    div: balance.div(BigNumber.from('10').pow(decimals)),
+    mod: balance.mod(BigNumber.from('10').pow(decimals))
+  }
+  if (parts.mod.isZero()) return parts.div.toString()
+  return `${parts.div.toString()}.${parts.mod.toString().slice(0, 4)}...`
 }
 
 export default Row

@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Contract, Signer, BigNumber, BigNumberish } from 'ethers'
+import { Button, Grid, Typography, Card } from '@mui/material'
+import Address from './Address'
 
 const Row: React.FC<{ token: any, add: string, signer: Signer, faucet: Contract }> = ({ token, add, signer, faucet }) => {
   const baseDir =
@@ -28,14 +30,21 @@ const Row: React.FC<{ token: any, add: string, signer: Signer, faucet: Contract 
   })
 
   return (
-    <div>
-      <img src = {baseDir + token.logo} width = "50px"></img>
-      <h3>Nombre: {token.name} </h3>
-      <h3>Symbol: {token.symbol} </h3>
-      <h3>Address: {add} </h3>
-      <h3>Balance: {balance && balanceToString(balance, token.decimals)}</h3>
-      <button disabled={disable} onClick={() => faucet.dispense(add.toLowerCase(), address)}>Dispense</button>
-    </div>
+    <Card style={{ margin: '20px', padding: '20px' }}>
+      <Grid container>
+        <Grid item xs={3}>
+          <Typography><img src = {baseDir + token.logo} width="30px" /><span style={{ marginBottom: '10px' }}>{token.symbol} ({token.name})</span></Typography>
+          <Address address={add} small={true} />
+        </Grid>
+        <Grid item xs={6}>
+          <Typography align='center'>Your Balance: {balance && balanceToString(balance, token.decimals)}</Typography>
+          <Typography align='center'>Faucet Balance: {faucetBalance && balanceToString(faucetBalance, token.decimals)}</Typography>
+        </Grid>
+        <Grid item xs={3}>
+          <Button size='small' disabled={disable} onClick={() => faucet.dispense(add.toLowerCase(), address)}>Get Funds</Button>
+        </Grid>
+      </Grid>
+    </Card>
   )
 }
 

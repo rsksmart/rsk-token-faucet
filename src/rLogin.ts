@@ -2,6 +2,8 @@ import RLogin from '@rsksmart/rlogin'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import Portis from '@portis/web3'
 import Torus from '@toruslabs/torus-embed'
+import { ledgerProviderOptions } from '@rsksmart/rlogin-ledger-provider'
+import { dcentProviderOptions } from '@rsksmart/rlogin-dcent-provider'
 
 const rpcUrls = {
   31: 'https://public-node.testnet.rsk.co'
@@ -33,7 +35,9 @@ const rLogin = new RLogin({
     },
     torus: {
       package: Torus
-    }
+    },
+    'custom-ledger': ledgerProviderOptions,
+    'custom-dcent': dcentProviderOptions
   }
 })
 

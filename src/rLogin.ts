@@ -4,11 +4,11 @@ const rpcUrls = {
   31: 'https://public-node.testnet.rsk.co'
 }
 
-  const supportedChains = Object.keys(rpcUrls).map(Number)
-  
+const supportedChains = Object.keys(rpcUrls).map(Number)
+
 const rLogin = new RLogin({
-    rpcUrls,
-    supportedChains
+  rpcUrls,
+  supportedChains
 })
 
 export default rLogin

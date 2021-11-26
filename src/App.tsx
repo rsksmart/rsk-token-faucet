@@ -1,23 +1,14 @@
 import React, { useState } from 'react'
 import contractMap from '@rsksmart/rsk-testnet-contract-metadata'
 import Row from './components/row'
-import RLogin from '@rsksmart/rlogin'
+import rLogin from './rLogin'
 import { ethers, Contract } from 'ethers'
 import { RifThemeProvider } from '@rsksmart/rif-material-ui'
 import { Button, Typography } from '@mui/material'
 
 const addresses = Object.keys(contractMap)
-const rpcUrls = {
-  31: 'https://public-node.testnet.rsk.co'
-}
-const supportedChains = Object.keys(rpcUrls).map(Number)
 
 const faucetAddress = '0x11f2753e9a597473da2f51492f4fefac1c572640'
-
-const rLogin = new RLogin({
-  rpcUrls,
-  supportedChains
-})
 
 function App () {
   const [mm, setMM] = useState<any>(null)

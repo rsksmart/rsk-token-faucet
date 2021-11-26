@@ -1147,7 +1147,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.13.10", "@babel/runtime@^7.16.3", "@babel/runtime@^7.8.7":
+"@babel/runtime@^7.13.10", "@babel/runtime@^7.15.4", "@babel/runtime@^7.16.3", "@babel/runtime@^7.8.7":
   version "7.16.3"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.16.3.tgz#b86f0db02a04187a3c17caa77de69840165d42d5"
   integrity sha512-WBwekcqacdY2e9AF/Q7WLFUWmdJGJTkbjqTjoMDgXkVZ3ZRUvOPsLb5KdwISoQVsbP+DQzVZW4Zhci0DvpbNTQ==
@@ -2317,6 +2317,21 @@
   integrity sha512-4t1FZH6h2TnLfFbfhfY29ENmbTvg56PC6j7awYuWpiQUF/1tMUnrUJ9QX7IaTSJ2QX2QaHu4CuG811iaPRhR0A==
   dependencies:
     bn.js "^5.2.0"
+
+"@rsksmart/rlogin-trezor-provider@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@rsksmart/rlogin-trezor-provider/-/rlogin-trezor-provider-1.0.1.tgz#a77226326ee0e6d3d35d08c5ab8bfd9694317603"
+  integrity sha512-EFQv3gYcxWiyNbZyd4ErMC+2zAnIOSNUfhXLOg3ZMD4bTh9ccjydH6tUMAfNli1lE9xabNQP84dBeQu/Mc2EIw==
+  dependencies:
+    "@ethereumjs/tx" "^3.3.0"
+    "@rsksmart/rlogin-dpath" "^1.0.1"
+    "@rsksmart/rlogin-eip1193-proxy-subprovider" "^1.0.1"
+    "@rsksmart/rlogin-transactions" "^1.0.1"
+    assert "^2.0.0"
+    buffer "^6.0.3"
+    ethjs-provider-http "^0.1.6"
+    stream-browserify "^3.0.0"
+    trezor-connect "^8.2.1"
 
 "@rsksmart/rlogin@^1.3.0-beta.2":
   version "1.3.0-beta.2"
@@ -14013,6 +14028,15 @@ tr46@~0.0.3:
   resolved "https://registry.yarnpkg.com/tr46/-/tr46-0.0.3.tgz#8184fd347dac9cdc185992f3a6622e14b9d9ab6a"
   integrity sha1-gYT9NH2snNwYWZLzpmIuFLnZq2o=
 
+trezor-connect@^8.2.1:
+  version "8.2.2"
+  resolved "https://registry.yarnpkg.com/trezor-connect/-/trezor-connect-8.2.2.tgz#ebddc27485324f0b816a48cd5356e2812581d3ba"
+  integrity sha512-raU4km4yYGw2ryq9QV3WAjsqBenP7jTTbP2qs9QasC9xkiVSecDdPwvqFSiMlpUBJt2M6o+XTne0W1CThLu4/g==
+  dependencies:
+    "@babel/runtime" "^7.15.4"
+    events "^3.3.0"
+    whatwg-fetch "^3.6.2"
+
 tryer@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/tryer/-/tryer-1.0.1.tgz#f2c85406800b9b0f74c9f7465b81eaad241252f8"
@@ -14985,6 +15009,11 @@ whatwg-fetch@^3.4.1:
   version "3.4.1"
   resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.4.1.tgz#e5f871572d6879663fa5674c8f833f15a8425ab3"
   integrity sha512-sofZVzE1wKwO+EYPbWfiwzaKovWiZXf4coEzjGP9b2GBVgQRLQUZ2QcuPpQExGDAW5GItpEm6Tl4OU5mywnAoQ==
+
+whatwg-fetch@^3.6.2:
+  version "3.6.2"
+  resolved "https://registry.yarnpkg.com/whatwg-fetch/-/whatwg-fetch-3.6.2.tgz#dced24f37f2624ed0281725d51d0e2e3fe677f8c"
+  integrity sha512-bJlen0FcuU/0EMLrdbJ7zOnW6ITZLrZMIarMUVmdKtsGvZna8vxKYaexICWPfZ8qwf9fzNq+UEIZrnSaApt6RA==
 
 whatwg-mimetype@^2.3.0:
   version "2.3.0"

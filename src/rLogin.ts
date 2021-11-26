@@ -2,6 +2,7 @@ import RLogin from '@rsksmart/rlogin'
 import WalletConnectProvider from '@walletconnect/web3-provider'
 import Portis from '@portis/web3'
 import Torus from '@toruslabs/torus-embed'
+import { trezorProviderOptions } from '@rsksmart/rlogin-trezor-provider'
 import { ledgerProviderOptions } from '@rsksmart/rlogin-ledger-provider'
 import { dcentProviderOptions } from '@rsksmart/rlogin-dcent-provider'
 
@@ -37,7 +38,14 @@ const rLogin = new RLogin({
       package: Torus
     },
     'custom-ledger': ledgerProviderOptions,
-    'custom-dcent': dcentProviderOptions
+    'custom-dcent': dcentProviderOptions,
+    'custom-trezor': {
+      ...trezorProviderOptions,
+      options: {
+        manifestEmail: 'info@iovlabs.org',
+        manifestAppUrl: 'https://basic-sample.rlogin.identity.rifos.org/'
+      }
+    }
   }
 })
 

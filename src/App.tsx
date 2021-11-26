@@ -14,14 +14,17 @@ const faucetAddress = '0x11f2753e9a597473da2f51492f4fefac1c572640'
 function App () {
   const [mm, setMM] = useState<any>(null)
   const [faucet, setFaucet] = useState<null | Contract>(null)
+  const [userAddress, setUserAddress] = useState('')
   const handleLogin = async () => {
     const { provider } = await rLogin.connect()
     const web3Provider = new ethers.providers.Web3Provider(provider).getSigner()
+    const address = await web3Provider.getAddress()
     const faucet = new Contract(faucetAddress, [
       'function dispense(address token, address to)'
     ], web3Provider)
     setMM(web3Provider)
     setFaucet(faucet)
+    setUserAddress(address)
   }
   return (
     <RifThemeProvider>
@@ -30,8 +33,8 @@ function App () {
         <Typography variant="h4" color="white" align='center'>Get testing funds of your favourites tokens</Typography>
         <Address small={false} address={faucetAddress} center={true} color="white"/>
         <Typography color="white" align='center'>You can donate tokes to the faucet</Typography>
+        {!mm ? <Button onClick = {handleLogin} >Log In</Button> : <Typography color="white" align='left'> Address del usuario: {userAddress} </Typography>}
         {(mm && faucet) && addresses.map((address: any) => <Row key={address} token = {contractMap[address]} add = {address} signer = {mm} faucet={faucet} />)}
-        <Button onClick = {handleLogin} >Log In</Button>
         {mm && mm.toString()}
       </div>
     </RifThemeProvider>

@@ -34,7 +34,7 @@ const Row: React.FC<{ token: any, add: string, signer: Signer, faucet: Contract 
       <Grid container>
         <Grid item xs={3}>
           <Typography><img src = {baseDir + token.logo} width="30px" /><span style={{ marginBottom: '10px' }}>{token.symbol} ({token.name})</span></Typography>
-          <Address address={add} small={true} />
+          <Address address={add} small={true} center={false}/>
         </Grid>
         <Grid item xs={6}>
           <Typography align='center'>Your Balance: {balance && balanceToString(balance, token.decimals)}</Typography>

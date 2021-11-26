@@ -5,6 +5,7 @@ import rLogin from './rLogin'
 import { ethers, Contract } from 'ethers'
 import { RifThemeProvider } from '@rsksmart/rif-material-ui'
 import { Button, Typography } from '@mui/material'
+import Address from './components/Address'
 
 const addresses = Object.keys(contractMap)
 
@@ -26,6 +27,9 @@ function App () {
     <RifThemeProvider>
       <div style={{ padding: '20px' }}>
         <Typography variant="h1" align='center'>RSK Token Faucet</Typography>
+        <Typography variant="h4" color="white" align='center'>Get testing funds of your favourites tokens</Typography>
+        <Address small={false} address={faucetAddress} center={true} color="white"/>
+        <Typography color="white" align='center'>You can donate tokes to the faucet</Typography>
         {(mm && faucet) && addresses.map((address: any) => <Row key={address} token = {contractMap[address]} add = {address} signer = {mm} faucet={faucet} />)}
         <Button onClick = {handleLogin} >Log In</Button>
         {mm && mm.toString()}

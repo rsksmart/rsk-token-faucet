@@ -19,15 +19,19 @@ const Row: React.FC<{ token: any, add: string, signer: Signer, faucet: Contract 
     (async () => {
       const a = await signer.getAddress()
       const b = await contract.balanceOf(a)
+
       const faucetB = await contract.balanceOf(faucet.address)
+
       setBalance(b)
       setAddress(a)
       setFaucetBalance(faucetB)
-      if (faucetBalance > 0) {
+
+      console.log(token.symbol, b)
+      if (faucetB.gte(BigNumber.from('10').mul(BigNumber.from('10').pow(token.decimals)))) {
         setDisable(false)
       }
     })()
-  })
+  }, [])
 
   return (
     <Card style={{ margin: '20px', padding: '20px' }}>

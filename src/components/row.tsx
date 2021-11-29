@@ -19,32 +19,34 @@ export const balanceToString = (balance: BigNumber, decimals: BigNumberish) => {
   return `${parts.div.toString()}.${parts.mod.toString().slice(0, 4)}...`
 }
 
-const Row: React.FC<{ tokenMeta: ITokenMetadata[string], tokenAddress: string, faucet: Contract }> = ({ tokenMeta, tokenAddress, faucet }) => {
+const Row: React.FC<{ tokenMeta: ITokenMetadata[string], tokenAddress: string, faucet?: Contract, dispenseTo: string }> = ({ tokenMeta, tokenAddress, faucet, dispenseTo }) => {
   const [userAddress, setUserAddress] = useState('')
   const [userBalance, setUserBalance] = useState<any>(null)
   const [faucetBalance, setFaucetBalance] = useState<any>(null)
   const [disable, setDisable] = useState(true)
 
-  const tokenContract = new Contract(tokenAddress.toLowerCase(), contractAbi, faucet.signer)
+  const tokenContract = !faucet ? new Contract(tokenAddress.toLowerCase(), contractAbi) : new Contract(tokenAddress.toLowerCase(), contractAbi, faucet.signer.provider)
 
   useEffect(() => {
-    (async () => {
-      const userAddress = await faucet.signer.getAddress()
-      const userBalance = await tokenContract.balanceOf(userAddress)
-      const faucetBalance = await tokenContract.balanceOf(faucet.address)
+    if (faucet) {
+      (async () => {
+        const userAddress = await faucet.signer.getAddress()
+        const userBalance = await tokenContract.balanceOf(userAddress)
+        const faucetBalance = await tokenContract.balanceOf(faucet.address)
 
-      setUserAddress(userAddress)
-      setUserBalance(userBalance)
-      setFaucetBalance(faucetBalance)
+        setUserAddress(userAddress)
+        setUserBalance(userBalance)
+        setFaucetBalance(faucetBalance)
 
-      if (faucetBalance.gte(BigNumber.from('10').mul(BigNumber.from('10').pow(tokenMeta.decimals)))) {
-        setDisable(false)
-      }
-    })()
-  }, [])
+        if (faucetBalance.gte(BigNumber.from('10').mul(BigNumber.from('10').pow(tokenMeta.decimals)))) {
+          setDisable(false)
+        }
+      })()
+    }
+  }, [faucet])
 
   return (
-    <Card style={{ margin: '20px', padding: '20px' }}>
+    <Card style={{ marginBottom: '20px', marginTop: '20px', padding: '20px' }}>
       <Grid container>
         <Grid item xs={3}>
           <Typography><img src = {baseDir + tokenMeta.logo} width="30px" /><span style={{ marginBottom: '10px' }}>{tokenMeta.symbol} ({tokenMeta.name})</span></Typography>
@@ -55,7 +57,7 @@ const Row: React.FC<{ tokenMeta: ITokenMetadata[string], tokenAddress: string, f
           <Typography align='center'>Faucet Balance: {faucetBalance && balanceToString(faucetBalance, tokenMeta.decimals)}</Typography>
         </Grid>
         <Grid item xs={3}>
-          <Button size='small' disabled={disable} onClick={() => faucet.dispense(tokenAddress.toLowerCase(), userAddress)}>Get Funds</Button>
+          <Button size='small' disabled={disable || !faucet} onClick={() => faucet!.dispense(tokenAddress.toLowerCase(), dispenseTo)}>Get Funds</Button>
         </Grid>
       </Grid>
     </Card>

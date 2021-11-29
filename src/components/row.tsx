@@ -1,56 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Contract, Signer, BigNumber, BigNumberish } from 'ethers'
+import { Contract, BigNumber, BigNumberish } from 'ethers'
 import { Button, Grid, Typography, Card } from '@mui/material'
+import { ITokenMetadata } from '@rsksmart/rsk-testnet-contract-metadata'
 import Address from './Address'
 
-const Row: React.FC<{ token: any, add: string, signer: Signer, faucet: Contract }> = ({ token, add, signer, faucet }) => {
-  const baseDir =
-  'https://raw.githubusercontent.com/rsksmart/rsk-testnet-contract-metadata/master/images/'
-  const contractAbi = [
-    // Get the account balance
-    'function balanceOf(address) view returns (uint)'
-  ]
-  const contract = new Contract(add.toLowerCase(), contractAbi, signer)
-  const [balance, setBalance] = useState<any>(null)
-  const [address, setAddress] = useState('')
-  const [faucetBalance, setFaucetBalance] = useState<any>(null)
-  const [disable, setDisable] = useState(true)
-  useEffect(() => {
-    (async () => {
-      const a = await signer.getAddress()
-      const b = await contract.balanceOf(a)
-
-      const faucetB = await contract.balanceOf(faucet.address)
-
-      setBalance(b)
-      setAddress(a)
-      setFaucetBalance(faucetB)
-
-      console.log(token.symbol, b)
-      if (faucetB.gte(BigNumber.from('10').mul(BigNumber.from('10').pow(token.decimals)))) {
-        setDisable(false)
-      }
-    })()
-  }, [])
-
-  return (
-    <Card style={{ margin: '20px', padding: '20px' }}>
-      <Grid container>
-        <Grid item xs={3}>
-          <Typography><img src = {baseDir + token.logo} width="30px" /><span style={{ marginBottom: '10px' }}>{token.symbol} ({token.name})</span></Typography>
-          <Address address={add} small={true} center={false}/>
-        </Grid>
-        <Grid item xs={6}>
-          <Typography align='center'>Your Balance: {balance && balanceToString(balance, token.decimals)}</Typography>
-          <Typography align='center'>Faucet Balance: {faucetBalance && balanceToString(faucetBalance, token.decimals)}</Typography>
-        </Grid>
-        <Grid item xs={3}>
-          <Button size='small' disabled={disable} onClick={() => faucet.dispense(add.toLowerCase(), address)}>Get Funds</Button>
-        </Grid>
-      </Grid>
-    </Card>
-  )
-}
+const baseDir = 'https://raw.githubusercontent.com/rsksmart/rsk-testnet-contract-metadata/master/images/'
+const contractAbi = [
+  // Get the account balance
+  'function balanceOf(address) view returns (uint)'
+]
 
 export const balanceToString = (balance: BigNumber, decimals: BigNumberish) => {
   const parts = {
@@ -59,6 +17,51 @@ export const balanceToString = (balance: BigNumber, decimals: BigNumberish) => {
   }
   if (parts.mod.isZero()) return parts.div.toString()
   return `${parts.div.toString()}.${parts.mod.toString().slice(0, 4)}...`
+}
+
+const Row: React.FC<{ tokenMeta: ITokenMetadata[string], tokenAddress: string, faucet?: Contract, dispenseTo: string }> = ({ tokenMeta, tokenAddress, faucet, dispenseTo }) => {
+  const [userAddress, setUserAddress] = useState('')
+  const [userBalance, setUserBalance] = useState<any>(null)
+  const [faucetBalance, setFaucetBalance] = useState<any>(null)
+  const [disable, setDisable] = useState(true)
+
+  const tokenContract = !faucet ? new Contract(tokenAddress.toLowerCase(), contractAbi) : new Contract(tokenAddress.toLowerCase(), contractAbi, faucet.signer.provider)
+
+  useEffect(() => {
+    if (faucet) {
+      (async () => {
+        const userAddress = await faucet.signer.getAddress()
+        const userBalance = await tokenContract.balanceOf(userAddress)
+        const faucetBalance = await tokenContract.balanceOf(faucet.address)
+
+        setUserAddress(userAddress)
+        setUserBalance(userBalance)
+        setFaucetBalance(faucetBalance)
+
+        if (faucetBalance.gte(BigNumber.from('10').mul(BigNumber.from('10').pow(tokenMeta.decimals)))) {
+          setDisable(false)
+        }
+      })()
+    }
+  }, [faucet])
+
+  return (
+    <Card style={{ marginBottom: '20px', marginTop: '20px', padding: '20px' }}>
+      <Grid container>
+        <Grid item xs={3}>
+          <Typography><img src = {baseDir + tokenMeta.logo} width="30px" /><span style={{ marginBottom: '10px' }}>{tokenMeta.symbol} ({tokenMeta.name})</span></Typography>
+          <Address address={tokenAddress} small={true} center={false}/>
+        </Grid>
+        <Grid item xs={6}>
+          <Typography align='center'>Your Balance: {userBalance && balanceToString(userBalance, tokenMeta.decimals)}</Typography>
+          <Typography align='center'>Faucet Balance: {faucetBalance && balanceToString(faucetBalance, tokenMeta.decimals)}</Typography>
+        </Grid>
+        <Grid item xs={3}>
+          <Button size='small' disabled={disable || !faucet} onClick={() => faucet!.dispense(tokenAddress.toLowerCase(), dispenseTo)}>Get Funds</Button>
+        </Grid>
+      </Grid>
+    </Card>
+  )
 }
 
 export default Row
